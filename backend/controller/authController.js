@@ -87,8 +87,8 @@ const otpVerification = async (req, res) => {
     res.cookie('auth_token', token, {
       httpOnly: true,
       maxAge: 30 * 24 * 60 * 60 * 1000,
-      sameSite: "strict",
-      secure: process.env.NODE_ENV === "production"
+      sameSite: "none",
+      secure: true
     })
 
     return response(res, 200, 'Otp verified successfully', { user })
@@ -151,7 +151,9 @@ const logout = async (req, res) => {
     try{
         res.cookie('auth_token', '', {
             httpOnly: true,
-            expires: new Date(0)
+            expires: new Date(0),
+            sameSite: "none",
+            secure: true
         })
         console.log('LogOut Successfully !')
         return response(res,200,'LogOut Successfully !')
