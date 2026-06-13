@@ -6,7 +6,11 @@ const useLayoutStore = create(
         (set) => ({
     activeTab:'chats',
     selectedContact:null,
+    clickPosition: null,
+    pageClickPosition: null,
     setSelectedContact: (contact) => set({ selectedContact: contact }),
+    setClickPosition: (pos) => set({ clickPosition: pos }),
+    setPageClickPosition: (pos) => set({ pageClickPosition: pos }),
     setActiveTab: (tab) => set({ activeTab: tab }),
 }),{
     name:'layout-store',

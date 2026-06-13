@@ -49,6 +49,7 @@ const Sidebar = () => {
     <>
       <Link
         to='/'
+        onClick={(e) => useLayoutStore.getState().setPageClickPosition({ x: e.clientX, y: e.clientY })}
         className={`w-12 h-12 flex shrink-0 items-center justify-center rounded-2xl transition-all duration-300 ${isMobile ? "" : "mb-6"} ${activeTab === 'chats' ? 'bg-white shadow-sm dark:bg-gray-800 text-blue-500 scale-105' : 'text-gray-400 hover:bg-black/5 dark:hover:bg-white/5 hover:scale-105'} focus:outline-none`}
       >
         <BotMessageSquare className="h-6 w-6" color={activeTab === 'chats' ? 'currentColor' : 'gray'} />
@@ -56,6 +57,7 @@ const Sidebar = () => {
 
       <Link
         to='/user-status'
+        onClick={(e) => useLayoutStore.getState().setPageClickPosition({ x: e.clientX, y: e.clientY })}
         className={`w-12 h-12 flex shrink-0 items-center justify-center rounded-2xl transition-all duration-300 ${isMobile ? "" : "mb-6"} ${activeTab === 'status' ? 'bg-white shadow-sm dark:bg-gray-800 text-blue-500 scale-105' : 'text-gray-400 hover:bg-black/5 dark:hover:bg-white/5 hover:scale-105'} focus:outline-none`}
       >
         <IoMdRadioButtonOn className="h-6 w-6" color={activeTab === 'status' ? 'currentColor' : 'gray'} />
@@ -65,6 +67,7 @@ const Sidebar = () => {
 
       <Link
         to='/user-profile'
+        onClick={(e) => useLayoutStore.getState().setPageClickPosition({ x: e.clientX, y: e.clientY })}
         className={`w-12 h-12 flex shrink-0 items-center justify-center rounded-2xl transition-all duration-300 ${isMobile ? "" : "mb-6"} ${activeTab === 'user-profile' ? 'bg-white shadow-sm dark:bg-gray-800 text-blue-500 scale-105' : 'text-gray-400 hover:bg-black/5 dark:hover:bg-white/5 hover:scale-105'} focus:outline-none`}
       >
         {user?.profilePicture ? (
@@ -76,6 +79,7 @@ const Sidebar = () => {
 
       <Link
         to='/settings'
+        onClick={(e) => useLayoutStore.getState().setPageClickPosition({ x: e.clientX, y: e.clientY })}
         className={`w-12 h-12 flex shrink-0 items-center justify-center rounded-2xl transition-all duration-300 ${isMobile ? "" : "mb-6"} ${activeTab === 'settings' ? 'bg-white shadow-sm dark:bg-gray-800 text-blue-500 scale-105' : 'text-gray-400 hover:bg-black/5 dark:hover:bg-white/5 hover:scale-105'} focus:outline-none`}
       >
         <MotionSettingsIcon 

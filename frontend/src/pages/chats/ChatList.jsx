@@ -91,7 +91,11 @@ const ChatList = ({ contacts }) => {
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
                   whileTap={{ scale: 0.95 }}
-                  onClick={() => setSelectedContact(contact)}
+                  onClick={(e) => {
+                    const pos = { x: e.clientX, y: e.clientY }
+                    useLayoutStore.getState().setClickPosition(pos)
+                    setSelectedContact(contact)
+                  }}
                   className={`flex items-center gap-3 p-3 rounded-2xl cursor-pointer transition-all duration-200 ${
                     isSelected
                       ? 'neu-pressed'

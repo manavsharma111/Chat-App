@@ -1,5 +1,4 @@
-import React, { useState } from 'react'
-import { useEffect } from 'react'
+import React, { useState, useRef, useEffect } from 'react'
 import useLayoutStore from '../store/layoutStore'
 import Sidebar from './Sidebar'
 import { useLocation } from 'react-router-dom'
@@ -14,62 +13,76 @@ const Layout = ({ children, isThemeDialogOpen, toggleThemeDialog, isStatusPrevie
     const location = useLocation()
     const [isMobile, setIsMobile] = useState(window.innerWidth <= 768)
     const { theme, setTheme } = useThemeStore()
+    const isFirstMount = useRef(true)
 
     useEffect(() => {
         const handleResize = () => {
             setIsMobile(window.innerWidth <= 768)
         }
         window.addEventListener('resize', handleResize)
+        isFirstMount.current = false
         return () => {
             window.removeEventListener('resize', handleResize)
         }
     }, [])
 
 
+    const clickPosition = useLayoutStore(state => state.clickPosition)
+
     return (
         <div className={`h-screen neu-bg ${theme === 'dark' ? 'text-gray-200' : 'text-gray-700'} flex relative`} >
             {!isMobile && <Sidebar />}
             <div
-                className={`flex-1 flex overflow-hidden ${isMobile ? "flex-col" : ""}`}>
-                <AnimatePresence
-                    initial={false}
-                    exitBeforeEnter
-                >
+                className={`flex-1 flex overflow-hidden relative ${isMobile ? "flex-col" : ""}`}>
+                <AnimatePresence>
                     {(!selectedContact || !isMobile) && (
                         <motion.div
                             key="chatList"
-                            initial={{ x: isMobile ? "-100%" : "0" }}
-                            animate={{ x: 0 }}
-                            exit={{ x: "100%" }}
+                            initial={isMobile ? { opacity: 0, scale: 0.95 } : false}
+                            animate={{ opacity: 1, scale: 1 }}
+                            exit={isMobile ? { opacity: 0, scale: 0.95 } : { opacity: 1, scale: 1 }}
                             transition={{
-                                type: "tween",
-                                duration: 0.5
+                                type: "spring",
+                                stiffness: 300,
+                                damping: 30
                             }}
-                            className={`w-full md:w-auto h-full shrink-0 ${isMobile ? "pb-16" : ""}`}
+                            className={`w-full md:w-auto h-full shrink-0 relative ${isMobile ? "pb-16 absolute inset-0 z-10 bg-inherit" : ""}`}
                         >
                             {children}
                         </motion.div>
                     )}
-                    {(selectedContact || !isMobile) && (
-                        <motion.div
-                            key="chatWindow"
-                            initial={{ x: isMobile ? "-100%" : "0" }}
-                            animate={{ x: 0 }}
-                            exit={{ x: "100%" }}
-                            transition={{
-                                type: "tween",
-                                duration: 0.5
-                            }}
-                            className={`flex-1 w-full h-full`}
-                        >
-                            <ChatWindow
-                                selectedContact={selectedContact}
-                                setSelectedContact={setSelectedContact}
-                                isMobile={isMobile}
-                            />
-                        </motion.div>
-                    )}
                 </AnimatePresence>
+                {/* ChatWindow Container */}
+                <div className={`${isMobile ? 'absolute inset-0 z-20 pointer-events-none' : 'flex-1'} grid grid-cols-1 grid-rows-1 w-full h-full`}>
+                    <AnimatePresence>
+                        {(selectedContact || !isMobile) && (
+                            <motion.div
+                                key={`chatWindow-${selectedContact?._id || 'empty'}`}
+                                initial={{ 
+                                    clipPath: `circle(0px at ${clickPosition?.x || window.innerWidth/2}px ${clickPosition?.y || window.innerHeight/2}px)`,
+                                    opacity: 1, zIndex: 10
+                                }}
+                                animate={{ 
+                                    clipPath: `circle(${Math.max(window.innerWidth, window.innerHeight) * 2}px at ${clickPosition?.x || window.innerWidth/2}px ${clickPosition?.y || window.innerHeight/2}px)`,
+                                    opacity: 1, zIndex: 10
+                                }}
+                                exit={{ opacity: 0.99, zIndex: 0, transition: { duration: 0.6 } }}
+                                transition={{
+                                    type: "spring",
+                                    stiffness: 200,
+                                    damping: 25
+                                }}
+                                className={`col-start-1 row-start-1 w-full h-full bg-inherit ${isMobile ? 'pointer-events-auto' : ''}`}
+                            >
+                                <ChatWindow
+                                    selectedContact={selectedContact}
+                                    setSelectedContact={setSelectedContact}
+                                    isMobile={isMobile}
+                                />
+                            </motion.div>
+                        )}
+                    </AnimatePresence>
+                </div>
             </div>
             {isMobile && <Sidebar />}
 

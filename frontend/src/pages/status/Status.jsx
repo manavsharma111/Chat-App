@@ -90,12 +90,8 @@ const Status = () => {
   };
 
   return (
-    <Layout>
+    <>
       <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        exit={{ opacity: 0 }}
-        transition={{ duration: 0.3 }}
         className={`h-full w-full flex flex-col overflow-y-auto neu-bg ${theme === 'dark' ? 'text-gray-200' : 'text-gray-600'}`}
       >
         <div className="max-w-2xl mx-auto w-full p-4 sm:p-8 pt-12">
@@ -241,7 +237,7 @@ const Status = () => {
           onClose={() => setActiveUserStatuses(null)} 
         />
       )}
-    </Layout>
+    </>
   );
 };
 

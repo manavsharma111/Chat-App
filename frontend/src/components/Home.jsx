@@ -26,12 +26,8 @@ const Home = () => {
       console.log(allUsers)
 
   return (
-    <Layout>
+    <>
       <motion.div
-      initial={{opacity:0}}
-      animate={{opacity:1}}
-      exit={{opacity:0}}
-      transition={{duration:0.5}}
       className="h-full"
       >
         <ChatList
@@ -42,7 +38,7 @@ const Home = () => {
         
 
       </motion.div>
-    </Layout>
+    </>
     
   )
 }
