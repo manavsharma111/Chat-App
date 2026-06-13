@@ -31,7 +31,7 @@ const ChatList = ({ contacts }) => {
 
   return (
     <>
-    <div className={`flex flex-col h-screen border-r border-black/5 dark:border-white/5 shrink-0 transition-all duration-300
+    <div className={`flex flex-col h-full border-r border-black/5 dark:border-white/5 shrink-0 transition-all duration-300
       ${selectedContact ? 'hidden md:flex' : 'flex w-full'} md:w-80 lg:w-96
       neu-bg ${theme === 'dark' ? 'text-gray-200' : 'text-gray-700'}
     `}>

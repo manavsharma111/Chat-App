@@ -475,7 +475,7 @@ const ChatWindow = ({ selectedContact, setSelectedContact, isMobile }) => {
 
   return (
 
-    <div className="flex-1 h-screen w-full max-w-full overflow-x-hidden flex flex-col neu-bg relative">
+    <div className="flex-1 h-full w-full max-w-full overflow-x-hidden flex flex-col neu-bg relative">
       {selectedMessageIds.length > 0 ? (
         <div className={`p-4 flex items-center justify-between neu-flat border-b border-black/5 dark:border-white/5`}>
           <div className="flex items-center">

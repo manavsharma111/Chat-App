@@ -103,7 +103,7 @@ const Sidebar = () => {
         ease: 'easeInOut'
       }}
       className={`
-        ${isMobile ? "fixed bottom-0 left-0 right-0 h-16 z-50" : " w-[72px] h-screen border-r "}
+        ${isMobile ? "fixed bottom-0 left-0 right-0 h-16 z-50" : " w-[72px] h-full border-r "}
         ${theme === 'dark' ? 'bg-[#0f172a]/80' : 'bg-[#e0e5ec]/80'} backdrop-blur-md border-black/5 dark:border-white/5 flex items-center py-4 
         ${isMobile ? 'flex-row justify-around border-t' : 'flex-col justify-start px-3'}
         `}

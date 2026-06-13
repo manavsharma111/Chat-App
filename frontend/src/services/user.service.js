@@ -17,13 +17,14 @@ export const sendOtp = async (phoneNumber, phoneSuffix, email) => {
 
 
 // verify otp api
-export const verifyOtp = async (phoneNumber, phoneSuffix, otp, email) => {
+export const verifyOtp = async (phoneNumber, phoneSuffix, otp, email, rememberMe) => {
     try{
         const response = await axiosInstance.post('/auth/otp-verification', {
             phoneNumber,
             phoneSuffix,
             otp,
-            email
+            email,
+            rememberMe
         })
         return response.data
     }

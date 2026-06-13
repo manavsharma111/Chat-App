@@ -65,6 +65,7 @@ const Login = () => {
   const [loading, setLoading] = useState(false) // Make loading state mutable
   const [showDropdown, setShowDropdown] = useState(false) // State for dropdown visibility
   const [searchTerm, setSearchTerm] = useState('')
+  const [rememberMe, setRememberMe] = useState(true) // Default remember me to true
   const navigate = useNavigate()
   const { setUser } = useUserStore()
 
@@ -148,10 +149,10 @@ const Login = () => {
       let response;
 
       if (userPhoneData.email) {
-        response = await verifyOtp(null, null, otpString, userPhoneData.email);
+        response = await verifyOtp(null, null, otpString, userPhoneData.email, rememberMe);
       } else if (userPhoneData.phoneNumber) {
         const fullPhoneNumber = userPhoneData.phoneSuffix + userPhoneData.phoneNumber;
-        response = await verifyOtp(userPhoneData.phoneNumber, userPhoneData.phoneSuffix, otpString, null);
+        response = await verifyOtp(userPhoneData.phoneNumber, userPhoneData.phoneSuffix, otpString, null, rememberMe);
       } else {
         throw new Error("No phone number or email found for OTP verification.");
       }
@@ -477,6 +478,18 @@ transition-all duration-300
                     } focus:ring-2 focus:outline-none transition-all duration-200 shadow-inner`}
                   />
                 ))}
+              </div>
+
+              <div className="flex items-center justify-between py-2">
+                <label className={`flex items-center space-x-2 text-sm cursor-pointer select-none ${theme === 'dark' ? 'text-slate-300' : 'text-slate-700'}`}>
+                  <input
+                    type="checkbox"
+                    checked={rememberMe}
+                    onChange={(e) => setRememberMe(e.target.checked)}
+                    className="w-4 h-4 rounded border-slate-300 text-emerald-500 focus:ring-emerald-500"
+                  />
+                  <span>Remember me on this device</span>
+                </label>
               </div>
 
               <button

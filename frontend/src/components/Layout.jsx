@@ -30,7 +30,7 @@ const Layout = ({ children, isThemeDialogOpen, toggleThemeDialog, isStatusPrevie
     const clickPosition = useLayoutStore(state => state.clickPosition)
 
     return (
-        <div className={`h-screen neu-bg ${theme === 'dark' ? 'text-gray-200' : 'text-gray-700'} flex relative`} >
+        <div className={`h-[100dvh] neu-bg ${theme === 'dark' ? 'text-gray-200' : 'text-gray-700'} flex relative`} >
             {!isMobile && <Sidebar />}
             <div
                 className={`flex-1 flex overflow-hidden relative ${isMobile ? "flex-col" : ""}`}>

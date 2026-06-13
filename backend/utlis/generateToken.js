@@ -3,10 +3,9 @@ const dotenv = require('dotenv')
 dotenv.config()
 const JWT_SECRET = process.env.JWT_SECRET
 
-
-const generateToken = (userId) => {
+const generateToken = (userId, rememberMe = true) => {
     return jwt.sign({userId},JWT_SECRET,{ 
-        expiresIn:'30d'
+        expiresIn: rememberMe ? '30d' : '1d'
     })
 }
 

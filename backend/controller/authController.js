@@ -46,7 +46,7 @@ const sendOtp = async (req, res) => {
 
 // OTP Verification
 const otpVerification = async (req, res) => {
-  const { phoneNumber, phoneSuffix, email, otp } = req.body
+  const { phoneNumber, phoneSuffix, email, otp, rememberMe } = req.body
 
   try {
     let user
@@ -83,13 +83,20 @@ const otpVerification = async (req, res) => {
     user.isVerified = true
     await user.save()
 
-    const token = generateToken(user._id)
-    res.cookie('auth_token', token, {
+    const token = generateToken(user._id, rememberMe)
+    const isProduction = process.env.NODE_ENV === 'production'
+    
+    const cookieOptions = {
       httpOnly: true,
-      maxAge: 30 * 24 * 60 * 60 * 1000,
-      sameSite: "none",
-      secure: true
-    })
+      sameSite: isProduction ? "none" : "lax",
+      secure: isProduction
+    }
+    
+    if (rememberMe) {
+      cookieOptions.maxAge = 30 * 24 * 60 * 60 * 1000 // 30 days
+    }
+
+    res.cookie('auth_token', token, cookieOptions)
 
     return response(res, 200, 'Otp verified successfully', { user })
   } catch (e) {
